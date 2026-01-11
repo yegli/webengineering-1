@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Schere Stein Papier</title>
+  <link rel="stylesheet" href="styles/global.css">
+  <script src="scripts/main.js" type="module"></script>
+</head>
+<body>
+<!-- Leaderboard Page (Visible by Default) -->
+<div id="leader-board-page" class="visible">
+  <h1 class="title">Schere Stein Papier Echse Spock</h1>
+  <div class="container">
+    <div id="mode-button-container">
+      <button id="mode-button">Wechsel zu Server</button>
+    </div>
+    <h1 class="title"> Rangliste </h1>
+    <ol id="leader-board-list"> <!-- maximum 10 entries --></ol>
+  </div>
+  <hr>
+  <div>
+    <h3>Starten Sie ein neues Spiel</h3>
+    <p>Name:</p>
+    <input type="text" id="name-input" required>
+    <div class="start-game">
+      <button id="start-button" disabled>Spiel Starten</button>
+    </div>
+  </div>
+</div>
+
+<!-- Game Page (Hidden by Default) -->
+<div id="game-page">
+  <div id="game-board">
+    <p id="game-page-greeting"></p>
+
+    <div id="game-buttons">
+      <button class="moves" data-hand="rock">Rock</button>
+      <button class="moves" data-hand="paper">Paper</button>
+      <button class="moves" data-hand="scissors">Scissors</button>
+      <button class="moves" data-hand="lizard">Lizard</button>
+      <button class="moves" data-hand="spock">Spock</button>
+    </div>
+
+    <div id="output-container">
+      <div id="computer-output">
+        <output id="computer-output-text"></output>
+      </div>
+      <div id="countdown-box">
+        <output id="countdown-text"></output>
+      </div>
+    </div>
+
+    <p id="round-count"></p>
+    <div class="container">
+      <button id="return-button">Zurück zum Ranking</button>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <div class="container" id="history">
+    <p>History</p>
+    <table id="results-table">
+      <thead>
+      <tr>
+        <th>Resultat</th>
+        <th>Spieler</th>
+        <th>Gegner</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Rows will be added here dynamically -->
+      </tbody>
+    </table>
+  </div>
+</div>
+

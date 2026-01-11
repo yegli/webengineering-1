@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <p>
+      Counter: <span id='counter'></span>
+      <span id='error'></span>
+    </p>
+
+    <script>
+      async function doStuff() {
+	const counterSpan = document.querySelector('#counter');
+	const errorSpan = document.querySelector('#counter');
+	try {
+	  const response = await fetch('http://localhost:3000/api/counter');
+	  const counter = await response.json();
+	  counterSpan.innerText = counter.counter;
+	} catch(e) {
+	  errorSpan.innerText = e;
+	}
+      }
+      doStuff();
+    </script>
+  </body>
+</html>

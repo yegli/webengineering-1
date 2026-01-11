@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inline Events</title>
+</head>
+<body>
+
+<h1>Songs</h1>
+
+<ul id="songs"></ul>
+
+<script type="module">
+    import songModel from "./songmodel.js";
+
+    //usually the definition of inline events in templates
+    //should be avoided in favor of defining data-* attributes
+    //in the template handling the event at a parent (event bubbling)
+    //The problem of inline event handlers is that called
+    //functions must be accessible in the global scope. This can lead
+    //to unanticipated naming conflicts in larger applications.
+
+    //DOM Refs
+    const songListElement = document.querySelector("#songs");
+
+    // Rendering
+    function createSongsHtml(songs) {
+        return songs.map(song =>
+            `<li>
+            <h3>
+                ${song.rating}
+                <button onclick="rate('${song.id}', 1)">+</button>
+                <button onclick="rate('${song.id}', -1)">-</button>
+                ${song.title}
+            </h3>
+          <p>${song.artist}</p>
+        </li>`).join('');
+    }
+
+    function renderSongs() {
+        //assigning innerHTML once is fine. Doing it repeatedly is a problem
+        songListElement.innerHTML = createSongsHtml(songModel.songsSorted());
+    }
+
+    //must be global to be referenced in the inline event handler
+    function rate(id, delta) {
+        songModel.rateSong(id, delta);
+        renderSongs();
+    }
+    //must be made global
+    window.rate = rate;
+
+    renderSongs();
+</script>
+</body>
+</html>

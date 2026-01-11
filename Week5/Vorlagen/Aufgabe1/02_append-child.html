@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Append Operations</title>
+</head>
+<body>
+<h1>Songs</h1>
+<ul id="songs">
+    <li>
+        <h3>Thank you for the music</h3>
+        <p>ABBA</p>
+    </li>
+    <li>
+        <h3>California Girls</h3>
+        <p>Beach Boys</p>
+    </li>
+    <!--TODO Example entries -->
+</ul>
+
+<script src="songmodel.js"></script>
+<script>
+    const songListElement = document.querySelector("#songs");
+    function renderSongs() {
+        const df = document.createDocumentFragment();
+        for (const song of songs)
+        {
+
+                const li = document.createElement("li");
+                const h3 = document.createElement("h3");
+                li.appendChild(h3);
+                h3.textContent = song.title;
+
+                const p = document.createElement("p");
+                li.appendChild(p);
+                p.textContent = song.artist;
+                df.appendChild(li)
+
+
+        }
+        songListElement.appendChild(df);
+    }
+
+    renderSongs();
+</script>
+</body>
+</html>

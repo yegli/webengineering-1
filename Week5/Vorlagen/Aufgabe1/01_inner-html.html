@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>InnerHTML</title>
+</head>
+<body>
+<h1>Songs</h1>
+<ul id="songs">
+  <li>
+    <h3>Thank you for the music</h3>
+    <p>ABBA</p>
+  </li>
+  <li>
+    <h3>California Girls</h3>
+    <p>Beach Boys</p>
+  </li>
+  <!--TODO Example entries -->
+</ul>
+
+<script src="songmodel.js"></script>
+<script>
+  //DOM Refs
+  const songListElement = document.querySelector("#songs");
+
+  // Rendering
+  function createSongsHtml(songs) {
+    // TODO: create the HTML string
+    // use map or 'for of':
+    return songs.map(song => `
+            <li>
+                 <h3>${song.title}</h3>
+                 <p>${song.artist}</p>
+            </li>`).join('');
+  }
+
+    function renderSongs() {
+      const songHtml =  createSongsHtml(songs);
+      songListElement.innerHTML = songHtml;
+    }
+
+    renderSongs()
+
+</script>
+</body>
+</html>

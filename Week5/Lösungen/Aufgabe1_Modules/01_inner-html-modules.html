@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InnerHTML</title>
+</head>
+<body>
+<h1>Songs</h1>
+<ul id="songs"></ul>
+<!--<script src="songmodel.js"></script>-->
+<script type="module">
+    import songsModel from "./songmodel.js";
+    //DOM Refs
+    const songListElement = document.querySelector("#songs");
+
+    // Rendering
+    function createSongsHtml(songs) {
+        var array = [];
+        array[2] = 'c';
+        array[1] = 'b';
+        array[0] = 'a';
+
+        for (const p of array) {
+            console.log ("P: " + p);
+        }
+
+        for (const song in songs) {
+            console.log(song);
+        }
+       for (const song of songs) {
+           console.log(song);
+       }
+
+        return songs.map(song =>
+            `<li>
+                 <h3>${song.title}</h3>
+                 <p>${song.artist}</p>
+             </li>`
+        ).join('');
+    }
+
+    function renderSongs() {
+        const songHtml = createSongsHtml(songsModel.songs);
+        songListElement.innerHTML = songHtml;
+    }
+
+    renderSongs()
+
+</script>
+</body>
+</html>

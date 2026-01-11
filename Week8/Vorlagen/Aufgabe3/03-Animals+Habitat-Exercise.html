@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Animals+Habitat</title>
+  <link rel="stylesheet" href="03-Animals+Habitat-Styles-Exercise.css">
+</head>
+<body>
+<!--Nothing to do here -> see css and JS Files-->
+<h1>Animals and Habitat</h1>
+<section id="welcome">
+  <h2>Welcome</h2>
+  <section id="intro">
+    <h3>Introduction</h3>
+    <p>Show that you know the habitat of animals!</p>
+    <p>Push the Start button below to get a new question ... </p>
+    <button id="start">Start</button>
+  </section>
+  <section id="answer-log" hidden>
+    <h3>Answer history</h3>
+    <p>... or choose a prior question below to answer again</p>
+    <h2>Answer History</h2>
+    <p>Select an item from the list to try again</p>
+    <ul id="answers"></ul>
+    <script type="module" src="03-Animals+Habitat-Script-Exercise.js"></script>
+  </section>
+</section>
+<form id="question">
+  <h2>Timer</h2>
+  <p>Time is running:</p>
+  <progress id="timer" max="100" value="100"></progress>
+  <h2>Question</h2>
+  <label>What is the Habitat of this Animal?</label>
+  <output id="animal"></output>
+  <div>
+    <label for="habitat">Habitat</label>
+    <select id="habitat" autofocus>
+      <option value="unknown">Don't know</option>
+    </select>
+  </div>
+</form>
+</body>
+</html>

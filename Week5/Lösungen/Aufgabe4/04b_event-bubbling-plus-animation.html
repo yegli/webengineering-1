@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bubbling Events</title>
+    <style>
+        @keyframes wiggleAnimation {
+            0%  { transform: skewX(9deg); }
+            10% { transform: skewX(-8deg); }
+            20% { transform: skewX(7deg); }
+            30% { transform: skewX(-6deg); }
+            40% { transform: skewX(5deg); }
+            50% { transform: skewX(-4deg); }
+            60% { transform: skewX(3deg); }
+            70% { transform: skewX(-2deg); }
+            80% { transform: skewX(1deg); }
+            90% { transform: skewX(0deg); }
+            100% { transform: skewX(0deg); }
+        }
+
+        .wiggle {
+            animation-name: wiggleAnimation;
+            animation-duration: 1s;
+        }
+    </style>
+
+</head>
+<body>
+
+<h1>Songs</h1>
+
+<ul id="songs"></ul>
+
+
+<script src="songmodel.js"></script>
+
+<script>
+    "use strict";
+    //iife: no global variables
+    (function () {
+
+        // DOM Refs
+        const songsListElement = document.querySelector("#songs");
+
+        // View Rendering
+        function createSongsHtml(songs) {
+            return songs.map(song =>
+                `<li id="song-${song.id}">
+                    <h3>${song.rating}
+                        <button data-delta="1" data-song-id="${song.id}">+</button>
+                        <button data-delta="-1" data-song-id="${song.id}">-</button>
+                        ${song.title}
+                    </h3>
+                <p>${song.artist}</p>
+            </li>`).join('');
+        }
+
+        function renderSongs() {
+            songsListElement.innerHTML = createSongsHtml(songsSorted());
+        }
+
+        // controller
+        function rate(id, delta) {
+            rateSong(id, delta);
+            renderSongs();
+        }
+
+        function getSongIndex(id) {
+            return songsSorted().findIndex(function (song) {
+                return song.id === id;
+            });
+        }
+
+        function wiggleSongElement(songId) {
+            console.log(songId);
+            const songElement = document.querySelector("#song-" + songId);
+            songElement.classList.add("wiggle")
+        }
+
+        function bubbledClickEventHandler(event) {
+            // takes advantage of event bubbling
+            const buttonSongId = event.target.dataset.songId;
+            if (buttonSongId) {
+                const beforeSongIndex = getSongIndex(buttonSongId);
+                const buttonDelta = Number(event.target.dataset.delta);
+                rate(buttonSongId, buttonDelta);
+                const afterSongIndex = getSongIndex(buttonSongId);
+                if (afterSongIndex !== beforeSongIndex) {
+                    wiggleSongElement(buttonSongId);
+                }
+            }
+        }
+
+        renderSongs();
+        songsListElement.addEventListener("click", bubbledClickEventHandler);
+
+    })()
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Pull Chat Client</title>
+  <style>.error {color: red}</style>
+</head>
+<body>
+<h1>Simple Pull Chat Client</h1>
+<div id="start-chat-section">
+  <h2>Start Chatting</h2>
+  <form id="start-new-chat-form">
+    <div><label for="handle-input">Your Handle (required)</label><input id="handle-input" autofocus></div>
+    <button id="start-new-chat-btn">Start a new Chat</button>
+  </form>
+  <form id="join-chat-form">
+    <div>
+      <label for="join-chat-input">Chat-id</label><input id="join-chat-input">
+    </div>
+    <button id="join-chat-btn">Join a Chat</button>
+    <span id="join-error-display" class="error" hidden>ERROR: not able to join chat (no chat with this Id)</span>
+  </form>
+</div>
+<div id="chatting-section" hidden>
+  <h2>Hello <span id="handle-output"></span> - You are Participating in Chat with Id:
+    <span id="chat-id-output"></span></h2>
+  <h3>Recent Messages</h3>
+  <ul id="messages-list"></ul>
+  <form id="send-message-form">
+    <div><label for="message-input">Your Message</label><input id="message-input"></div>
+    <button id="send-message-btn">Send Message</button>
+  </form>
+</div>
+<script src="basicChatClient.js" type="module"></script>
+</body>
+</html>

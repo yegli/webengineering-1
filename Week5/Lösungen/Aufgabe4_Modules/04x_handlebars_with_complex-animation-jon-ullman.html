@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head >
+  <meta charset="UTF-8">
+  <meta name="author" content="Jon Ullman">
+  <title>Music list with Handlebars+Events+Wiggle</title>
+  <style>
+      body {
+          font-family: sans-serif;
+          margin: 50px;
+      }
+
+      small {
+          color: #999;
+      }
+
+      h1 {
+          text-align: center;
+      }
+
+      h2 {
+          font-size: 1.2rem;
+          margin: 0;
+      }
+
+      ul {
+          position: relative;
+          list-style: none;
+          padding: 0;
+          margin: 0;
+      }
+
+      .rating {
+          display: inline-block;
+          margin-right: 2em;
+          unicode-bidi: bidi-override;
+          direction: rtl;
+          text-align: center;
+      }
+
+      .rating > span {
+          display: inline-block;
+          position: relative;
+          width: 1.1em;
+          cursor: pointer;
+          color: #999;
+      }
+
+      .rating > span::after {
+          content: '\2606';
+          -webkit-font-smoothing: antialiased;
+      }
+
+      .rating > span:hover,
+      .rating > span:hover ~ span, .rating:not(:hover) > span.active {
+          color: transparent;
+      }
+
+      .rating > span:hover::before,
+      .rating > span:hover ~ span::before, .rating:not(:hover) > span.active::before {
+          position: absolute;
+          left: 0;
+          content: '\2605';
+          -webkit-transform: scale(1.3);
+          transform: scale(1.3);
+          color: gold;
+          -webkit-font-smoothing: antialiased;
+      }
+
+      li {
+          list-style: none;
+          position: absolute;
+          -webkit-transition: -webkit-transform 0.2s ease-out;
+          transition: -webkit-transform 0.2s ease-out;
+          transition: transform 0.2s ease-out;
+          transition: transform 0.2s ease-out, -webkit-transform 0.2s ease-out;
+          padding-bottom: 2em;
+      }
+
+      button {
+          cursor: pointer;
+          font-size: 24px;
+          border: 1px solid transparent;
+          background: transparent;
+          color: #777;
+          -webkit-transition: -webkit-transform 0.2s ease;
+          transition: -webkit-transform 0.2s ease;
+          transition: transform 0.2s ease;
+          transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+          padding: 0;
+      }
+
+      button:hover, button:focus {
+          color: #333;
+          -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+      }
+
+      button:active {
+          outline: none;
+          color: #111;
+          -webkit-transform: scale(1.15);
+          transform: scale(1.15);
+      }
+  </style>
+</head>
+<body>
+<h1>Songs (best viewd with Firefox)</h1>
+<ul id="songs" data-maximale-rate="5"></ul>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+<script id="songs-template" type="text/x-handlebars-template">
+  {{#each this}}
+    <li id="song-{{this.id}}" class="index-{{@index}}">
+      {{> song}}
+    </li>
+  {{/each}}
+</script>
+<script id="song-template" type="text/x-handlebars-template">
+  <h2>{{this.title}}
+    <small><i class="fa fa-music"></i> {{this.artist}}</small>
+  </h2>
+  <div>
+    <span class="rating">{{{rate this.rating}}}</span>
+    <button data-delta="-1" data-song-id="{{this.id}}" type="button">−</button>
+    <button data-delta="1" data-song-id="{{this.id}}" type="button">+</button>
+  </div>
+</script>
+<script id="css-template" type="text/x-handlebars-template">
+  {{#each this}}
+    #songs>.index-{{@index}}{transform:translateY({{math @index '*' 100}}%);}
+  {{/each}}
+</script>
+<script>
+  Element.prototype.index = function () {
+    var returnedIndex = 0;
+    var siblings = this.parentNode.childNodes;
+    var count = siblings.length;
+    var index = 0;
+    while (index < count) {
+      if (siblings[index].nodeType === Node.ELEMENT_NODE) {
+        // Node is an element
+        if (this == siblings[index]) {
+          break;
+        }
+        returnedIndex++;
+      }
+      index++;
+    }
+    return returnedIndex;
+  };
+  (function ($) {
+    var songs = [
+      {"id": "01", "title": "Bleed", "artist": "Meshuggah", "rating": 3},
+      {"id": "02", "title": "Ghost Love Score", "artist": "Nightwish", "rating": 2},
+      {"id": "03", "title": "Demons Are a Girl's Best Friend", "artist": "Powerwolf", "rating": 1},
+      {"id": "04", "title": "Heavy Metal Breakdown", "artist": "Gravedigger", "rating": 0},
+      {"id": "05", "title": "Roll Over Beethoven", "artist": "Electric Light Orchestra", "rating": 0},
+      {"id": "06", "title": "The Phalanx", "artist": "Trivium", "rating": 0},
+      {"id": "07", "title": "Beds Are Burning", "artist": "Diesel and Dust", "rating": 0},
+      {"id": "08", "title": "Rational Gaze", "artist": "Meshuggah ", "rating": 0},
+    ];
+    var $songs = $.getElementById('songs');
+    var songsTemplate = $.getElementById('songs-template').innerText;
+    var songTemplate = $.getElementById('song-template').innerText;
+    var cssTemplate = $.getElementById('css-template').innerText;
+    var style = $.createElement('style');
+    var maximaleRate = parseInt($songs.dataset.maximaleRate) || 5;
+    var compareSongs = function (s1, s2) {
+      return s1.rating < s2.rating;
+    };
+    var findSong = function (id) {
+      for (var i = 0; i < songs.length; i++) {
+        if (songs[i].id == id) {
+          return songs[i];
+        }
+      }
+      return false;
+    };
+    var rateSong = function (data) {
+      if (data.songId && (data.delta || data.rate > -1)) {
+        var song = findSong(data.songId);
+        if (song) {
+          song.rating = data.rate > -1 ? data.rate : Math.min(Math.max(song.rating + parseInt(data.delta), 0), maximaleRate);
+          songs.sort(compareSongs).forEach(function (song, index) {
+            var li = document.getElementById('song-' + song.id);
+            li.className = 'index-' + index;
+            li.innerHTML = Handlebars.compile(songTemplate)(song);
+          });
+        }
+      }
+    };
+    Handlebars.registerPartial('song', songTemplate);
+    Handlebars.registerHelper('math', function (lvalue, operator, rvalue, options) {
+      lvalue = parseFloat(lvalue);
+      rvalue = parseFloat(rvalue);
+
+      return {
+        '+': lvalue + rvalue,
+        '-': lvalue - rvalue,
+        '*': lvalue * rvalue,
+        '/': lvalue / rvalue,
+        '%': lvalue % rvalue
+      }[operator];
+    });
+    Handlebars.registerHelper('rate', function (value) {
+      var active = parseInt(value);
+      var inactive = maximaleRate - active;
+      var html = '';
+      while (inactive--) {
+        html += '<span></span>';
+      }
+      while (active--) {
+        html += '<span class="active"></span>';
+      }
+      return html;
+    });
+    style.innerHTML = Handlebars.compile(cssTemplate)(songs);
+    $.head.appendChild(style);
+    $songs.innerHTML = Handlebars.compile(songsTemplate)(songs.sort(compareSongs));
+    $.addEventListener('click', function (event) {
+      var target = event.target;
+      if (target.matches('button')) {
+        rateSong(target.dataset);
+      } else if (target.matches('.rating>span')) {
+        var active = target.parentElement.querySelectorAll('.active').length;
+        var rate = maximaleRate - target.index();
+        var id = target.closest('li').id.slice(5);
+        if (active == rate) {
+          rate = 0;
+        }
+        rateSong({
+          songId: id,
+          rate: rate
+        });
+      }
+    });
+  })(document);
+</script>
+</body>
+</html>

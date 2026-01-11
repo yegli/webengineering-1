@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bubbling Events</title>
+</head>
+<body>
+
+<h1>Songs</h1>
+
+<ul id="songs"></ul>
+<script src="songmodel.js"></script>
+
+<script>
+  "use strict";
+
+  function initApp() {
+    // DOM Refs
+    const songsLiElement = document.querySelector("#songs");
+
+    // View Rendering
+    function createSongsHtml(songs) {
+      //todo: extend the template string to include + and - buttons (in the h3 section between rating and title) for increasing/decreasing the rating
+      return songs.map(song => `
+            <li>
+                <h3>
+                    ${song.rating}
+                    ${song.title}
+                </h3>
+      <p>${song.artist}</p>
+      </li>`).join('');
+    }
+
+    function renderSongs() {
+      songsLiElement.innerHTML = createSongsHtml(songs.sort(compareSongs));
+    }
+
+    // controller
+    function rate(id, delta) {
+      rateSong(id, delta);
+      renderSongs();
+    }
+
+    function bubbledClickEventHandler(event) {
+      // takes advantage of event bubbling
+      // TODO
+      // - get the button as the click-target from the event
+      // - get the value af the data-songId / data-delta attribute from the button
+      // - based on data-* call the rate() with the right parameters
+      // - check if the click was fired on a button
+    }
+
+    renderSongs();
+    // TODO register bubbledClickEventHandler with an element that receives all bubbled click events from the buttons
+  }
+
+  initApp();
+
+</script>
+</body>
+</html>

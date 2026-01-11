@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fetch Quizzes</title>
+</head>
+<body>
+<h1>Fetch Quizzes</h1>
+<p>see console</p>
+<script>
+  function quiz1() {
+    fetch('./text.txt')
+      .then(
+              (response) => response.text()
+      )
+      .then((text) => console.log(text))
+  }
+
+  quiz1();
+
+  function quiz2() {
+    fetch('./text.txt')
+      .then((response) => response.text())
+      .then((text) => console.log(text))
+  }
+
+  quiz2();
+
+  function quiz3() {
+    const text = fetch('./text.txt')
+      .then((response) => response.text());
+    console.log(text);
+  }
+
+  quiz3();
+
+  async function quiz4() {
+    const text = await fetch('./text.txt')
+      .then((response) => response.text());
+    console.log(text);
+  }
+
+  //quiz4();
+
+  async function quiz5() {
+    fetch('./xxxx.txt')
+      .then((response) => response.text())
+      .then((text) => console.log(text))
+      .catch((error) => console.log('error', error))
+  }
+
+   //quiz5();
+
+  async function quiz6() {
+    fetch('./text.txt')
+      .then((response) => Promise.reject('xx'))
+      .then((text) => console.log(text))
+      .catch((error) => console.log('error', error))
+  }
+  // quiz6();
+
+  async function quiz7() {
+    fetch('./text.txt')
+      .then((response) => Promise.reject('xx'))
+      .catch((error) => {console.log('error', error); return "yy"})
+      .then((text) => console.log(text))      
+  }
+  // quiz7();
+
+  async function quiz8() {
+    fetch('./xx.txt')      
+      .then((response) => {
+        if(response.status == 404){        
+          return fetch('./text.txt')
+        }
+        return response;
+      })
+      .then((response) => response.text())
+      .then((text) => console.log(text))        
+    }
+  // quiz8();
+
+</script>
+</body>
+</html>

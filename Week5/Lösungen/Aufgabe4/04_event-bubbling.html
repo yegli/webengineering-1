@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bubbling Events</title>
+</head>
+<body>
+
+<h1>Songs</h1>
+
+<ul id="songs"></ul>
+
+
+<script src="songmodel.js"></script>
+
+<script>
+    "use strict";
+    //containing init function -> no global variables
+    function initApp () {
+
+        // DOM Refs
+        const songsLiElement = document.querySelector("#songs");
+
+        // View Rendering
+        function createSongsHtml(songs) {
+            return songs.map(song =>
+                `<li>
+                <h3>${song.rating}
+                    <button data-delta="1" data-song-id="${song.id}">+</button>
+                    <button data-delta="-1" data-song-id="${song.id}">-</button>
+                    ${song.title}
+                </h3>
+                <p>${song.artist}</p>
+            </li>`).join('');
+        }
+
+        function renderSongs() {
+            songsLiElement.innerHTML = createSongsHtml(songsSorted());
+        }
+
+        // controller
+        function rate(id, delta) {
+            rateSong(id, delta);
+            renderSongs();
+        }
+
+        function bubbledClickEventHandler(event) {
+            // takes advantage of event bubbling
+            const buttonSongId = event.target.dataset.songId;
+            if (buttonSongId) {
+                const buttonDelta = Number(event.target.dataset.delta);
+                rate(buttonSongId, buttonDelta);
+            }
+        }
+
+
+        renderSongs();
+        songsLiElement.addEventListener("click", bubbledClickEventHandler);
+
+    }
+    initApp();
+</script>
+</body>
+</html>

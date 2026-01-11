@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Event Handling with Closure </title>
+</head>
+<body>
+<h1>Songs</h1>
+<ul id="songs"></ul>
+
+<script src="songmodel.js"></script>
+
+<script>
+  //DOM Refs
+  const songListElement = document.querySelector("#songs");
+
+  // Rendering
+  function renderSongs() {
+    //
+    //Creating HTML piece by piece should avoid appending innerHTML
+    //But to attach the right handler (including closure) to newly created DOM Nodes
+    //requires exactly such an iterative approach
+    //
+    const df = document.createDocumentFragment();
+    for (const song of songsSorted()) {
+      const h3Element = document.createElement("h3");
+      h3Element.insertAdjacentText("beforeend", song.rating);
+      const plusButton = document.createElement("button");
+      plusButton.innerText = "+";
+
+      plusButton.addEventListener("click", () => {song.rating++; renderSongs()})
+      h3Element.insertAdjacentElement("beforeend", plusButton);
+
+      const minusButton = document.createElement("button");
+      minusButton.innerText = "-";
+
+      minusButton.addEventListener("click", () => {song.rating--; renderSongs()})
+      h3Element.insertAdjacentElement("beforeend", minusButton);
+
+      h3Element.insertAdjacentText("beforeend", ' ');
+      h3Element.insertAdjacentText("beforeend", song.title);
+
+      const liElement = document.createElement("li");
+
+      liElement.appendChild(h3Element);
+      liElement.insertAdjacentText("beforeend", song.artist);
+      df.appendChild(liElement);
+    }
+
+
+    songListElement.replaceChildren(df);
+  }
+
+  renderSongs();
+</script>
+
+</body>
+</html>

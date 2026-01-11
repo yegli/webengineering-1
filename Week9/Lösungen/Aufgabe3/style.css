@@ -1,0 +1,21 @@
+:focus {
+    outline: solid blue 2px;
+}
+
+li.project {
+    padding: 3px;
+    width: 300px;
+}
+
+li.commit {
+    padding: 3px;
+}
+
+
+#container {
+    display: flex;
+}
+
+.author {
+    font-style: italic;
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InnerHTML</title>
+</head>
+<body>
+<h1>Songs</h1>
+<ul id="songs"></ul>
+<script src="./songmodel.js"></script>
+<script>
+    //DOM Refs
+    const songListElement = document.querySelector("#songs");
+
+    // Rendering
+    function createSongsHtml(songs) {
+        return songs.map(song =>
+            `<li>
+                 <h3>${song.title}</h3>
+                 <p>${song.artist}</p>
+             </li>`
+        ).join('');
+    }
+
+    function renderSongs() {
+        const songHtml =  createSongsHtml(songs);
+        songListElement.innerHTML = songHtml;
+    }
+
+    renderSongs()
+</script>
+</body>
+</html>

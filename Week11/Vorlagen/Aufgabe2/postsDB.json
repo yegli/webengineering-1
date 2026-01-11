@@ -1,0 +1,56 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "xxx"
+    },
+    {
+      "title": "WED1 is great",
+      "author": "markus",
+      "id": 2
+    },
+    {
+      "title": "WED3 is great",
+      "author": "michael",
+      "id": 3
+    },
+    {
+      "title": "WED2 is great",
+      "author": "markus",
+      "id": 4
+    },
+    {
+      "title": "Test",
+      "author": "Test",
+      "id": 5
+    },
+    {
+      "title": "Test",
+      "author": "Test",
+      "id": 6
+    },
+    {
+      "title": "123123",
+      "author": "123",
+      "id": 7
+    },
+    {
+      "title": "312313",
+      "author": "123",
+      "id": 8
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    },
+    {
+      "body": "Comment for Post 2",
+      "postId": 2,
+      "id": 2
+    }
+  ]
+}

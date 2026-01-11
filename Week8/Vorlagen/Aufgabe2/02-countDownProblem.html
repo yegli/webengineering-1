@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Count Down Problem</title>
+</head>
+<body>
+<h1>Count Down Problem</h1>
+<p>The Intendent Countdown Animation does not Work</p>
+<p>Explain why and correct</p>
+<h2>Countdown</h2>
+<output>10</output>
+<div>
+    <button>Start Countdown</button>
+</div>
+
+<script>
+    let counter = 10;
+    const outputElement = document.querySelector('output');
+
+    function waitAWhile () {
+      let i = 0;
+      while (i < 1000000000) {
+        i++;
+      }
+    }
+
+    function doCountDown () {
+      console.log('doCountDown'+counter);
+      if (counter > 0) {
+        waitAWhile ();
+        counter -= 1;
+        outputElement.innerHTML = counter;
+        doCountDown();
+      }else{
+        outputElement.innerHTML = 'done';
+      }
+    }
+
+    function startCountDown () {
+      counter = 10;
+      outputElement.innerHTML = counter;
+      doCountDown();
+    }
+    document.querySelector('button').addEventListener('click', startCountDown)
+</script>
+</body>
+</html>

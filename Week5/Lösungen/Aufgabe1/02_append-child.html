@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Append Operations</title>
+</head>
+<body>
+<h1>Songs</h1>
+<ul id="songs"></ul>
+
+<script src="songmodel.js"></script>
+<script>
+    //DOM Refs
+    const songListElement = document.querySelector("#songs");
+
+    // Rendering
+    function renderSongs() {
+        //using document fragment to append a list a elements might be more efficient
+        //than appending each of the li elements individually in older browsers.
+        //what should definitely be avoided ist repeated <element>.innerHTML += ...
+        // and <element>.innerText += ...
+
+        const df = document.createDocumentFragment();
+        for(const song of songs)
+        {
+            const liElement = document.createElement("li");
+            const h3Element = document.createElement("h3");
+            liElement.appendChild(h3Element);
+            h3Element.textContent = song.title;
+
+            const pElement = document.createElement("p");
+            liElement.appendChild(pElement);
+            pElement.textContent = song.artist;
+            df.appendChild(liElement);
+        }
+        songListElement.appendChild(df);
+    }
+
+    renderSongs();
+
+</script>
+
+</body>
+</html>

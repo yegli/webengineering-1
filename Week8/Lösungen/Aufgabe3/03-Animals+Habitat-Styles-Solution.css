@@ -1,0 +1,51 @@
+button {
+    margin: 10px;
+}
+
+#answers > li {
+    cursor: pointer;
+}
+
+#answers > li:hover {
+    background-color: lightgoldenrodyellow;
+}
+
+@media (min-width: 600px) {
+    #welcome {
+        display: grid;
+        grid-column-gap: 10px;
+        grid-template-columns: auto auto;
+    }
+}
+
+/*
+todo: Beantworten: Die folgenden CSS Blöcke haben in
+Summe einen ähnlichen Effekt wie die objge Media Query.
+a) Erklären Sie warum/wie
+  - Was bewirkt die Lösung mittels display: inline-block
+    A: 2 inline-blöcke je 300px breit.
+       Wenn die Seite breiter als 602PX ist haben beide
+       nebeneinander Platz ansonsten untereinander platziert.
+  - Was bewirkt die Media Query
+      A: Wenn mehr als 600px Breite dann wird ein Grid mit 2 Spalten erstellt.
+b) Was ist der Vorteil der Media Query
+      A: Mit Grid und Breite Auto können die Bereiche breiter als 300px werden
+c) Was ist der Vorteil der Lösung über display: inline-block
+      A: Funktioniert auch wenn der Browser Grid nicht kann
+e) Warum ist die Regel zu [hidden] nötig?
+      A: ist nur nötig wenn die Regel
+      #intro, #answer-log { display: inline-block; ...}
+      aktiv ist. denn display: inline-block ist (ohne die [hidden] Regel)
+      stärker als Setzen von hidden.
+*/
+
+/*
+ #intro, #answer-log {
+    display: inline-block;
+    width: 300px;
+    vertical-align: top;
+ }
+ [hidden] {
+    display: none !important;
+ }
+*/
